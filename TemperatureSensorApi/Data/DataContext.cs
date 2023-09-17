@@ -12,5 +12,6 @@ namespace TemperatureSensorApi.Data
 
         public DbSet<TemperatureHistory> HistoryList => Set<TemperatureHistory>();
         public DbSet<TemperatureStatus> TemperatureStatusList => Set<TemperatureStatus>();
+        public DbSet<TemperatureSensor> TemperatureSensor => Set<TemperatureSensor>();
     }
 }

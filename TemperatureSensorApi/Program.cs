@@ -16,6 +16,8 @@ builder.Services.AddTransient<ITemperatureStatusRepository, TemperatureStatusRep
 builder.Services.AddTransient<ITemperatureStatusManager, TemperatureStatusManager>();
 builder.Services.AddTransient<ITemperatureHistoryRepository, TemperatureHistoryRepository>();
 builder.Services.AddTransient<ITemperatureHistoryManager, TemperatureHistoryManager>();
+builder.Services.AddTransient<ITemperatureHistoryRepository, TemperatureHistoryRepository>();
+builder.Services.AddTransient<ITemperatureSensorManager, TemperatureSensorManager>();
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using TemperatureSensorApi.DTOs.TemperatureHistory;
 using TemperatureSensorApi.Interfaces;
 using TemperatureSensorApi.Models;
 
@@ -10,29 +12,39 @@ namespace TemperatureSensorApi.Controllers
     public class TemperatureHistoryController : ControllerBase
     {
         private readonly ITemperatureHistoryManager _temperatureHistoryManager;
+        private readonly ITemperatureSensorManager _temperatureSensorManager;
 
-        public TemperatureHistoryController(ITemperatureHistoryManager temperatureHistoryManager)
+        public TemperatureHistoryController(ITemperatureHistoryManager temperatureHistoryManager, ITemperatureSensorManager temperatureSensorManager)
         {
             _temperatureHistoryManager = temperatureHistoryManager;
+            _temperatureSensorManager = temperatureSensorManager;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAll([FromQuery]int lastsNumber)
+        public async Task<ActionResult> Get([FromQuery]int lastsNumber)
         {
             try
             {
-                var result = new List<TemperatureHistory>();
+                var historyResult = new List<TemperatureHistory>();
                 if (lastsNumber == 0)
-                {
-                    result = await _temperatureHistoryManager.GetAll();
-                }
+                    historyResult = await _temperatureHistoryManager.GetAll();
                 else
+                    historyResult = await _temperatureHistoryManager.GetAll(lastsNumber);
+                if (historyResult != null)
                 {
-                    result = await _temperatureHistoryManager.GetAll(lastsNumber);
-                }
-                if (result != null)
-                {
-                    return Ok(result);
+                    var result = new List<TemperatureHistoryGetDTO>();
+                    foreach (var element in historyResult)
+                    {
+                        var mood = await _temperatureSensorManager.GetMoodByTemperature(element.Temperature);
+                        result.Add(new TemperatureHistoryGetDTO()
+                        {
+                            Date = element.Date,
+                            Temperature = element.Temperature,
+                            Mood = mood
+                        });
+                    }
+                    var response = JsonConvert.SerializeObject(result);
+                    return Ok(response);
                 }
                 throw new Exception("An error occured while getting Temperature History");
             }

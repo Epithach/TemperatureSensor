@@ -67,5 +67,22 @@ namespace TemperatureSensorApi.Managers
             }
             throw new ArgumentException($"Cannot convert temperature value [{temperatureSensor.Temperature}] to double");
         }
+
+        public async Task<string> GetMoodByTemperature(double currentTemperature)
+        {
+            var mood = "NORMAL";
+            var coldTemperature = await _temperatureStatusManager.GetColdTemperature();
+            var hotTemperature = await _temperatureStatusManager.GetHotTemperature();
+            var warmLowTemperatureLimit = await _temperatureStatusManager.GetWarmTemperatureLimit(true);
+            var warmHighTemperatureLimit = await _temperatureStatusManager.GetWarmTemperatureLimit(false);
+
+            if (currentTemperature >= hotTemperature)
+                mood = "HOT";
+            else if (currentTemperature < coldTemperature)
+                mood = "COLD";
+            else if (currentTemperature >= warmLowTemperatureLimit && currentTemperature < warmHighTemperatureLimit)
+                mood = "WARM";
+            return mood;
+        }
     }
 }

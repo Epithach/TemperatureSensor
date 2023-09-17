@@ -15,31 +15,6 @@ namespace TemperatureSensorApi.Controllers
             _temperatureStatusManager = temperatureStatusManager;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Add(TemperatureStatusAddDTO dto)
-        {
-            try
-            {
-                if (dto == null) { throw new ArgumentNullException(nameof(dto)); }
-
-                var result = await _temperatureStatusManager.Add(dto.label, dto.value);
-
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                throw new Exception("An error occured while adding new Temperature Status");
-            }
-            catch (ArgumentException argumentException)
-            {
-                return BadRequest(argumentException.Message);
-            }
-            catch (Exception exception)
-            {
-                return StatusCode(500, exception.Message);
-            }
-        }
-
         [HttpPut]
         public async Task<ActionResult> Update(TemperatureStatusUpdateDTO dto)
         {
@@ -112,7 +87,6 @@ namespace TemperatureSensorApi.Controllers
                 return StatusCode(500, exception.Message);
             }
         }
-
 
         [HttpPut("warm")]
         public async Task<ActionResult> UpdateWarmTemperature(TemperatureStatusUpdateWarmTemperatureDTO dto)

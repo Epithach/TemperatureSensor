@@ -4,9 +4,9 @@ namespace TemperatureSensorApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TemperatureCensorController : ControllerBase
+    public class TemperatureSensorController : ControllerBase
     {
-        public TemperatureCensorController()
+        public TemperatureSensorController()
         {
 
         }

@@ -3,11 +3,11 @@ using TemperatureSensorApi.Interfaces;
 
 namespace TemperatureSensorApi.Components
 {
-    public class TemperatureCensorComponent : ViewComponent
+    public class TemperatureSensorComponent : ViewComponent
     {
         public ITemperatureSensorManager _temperatureSensorManager { get; set; }
 
-        public TemperatureCensorComponent(ITemperatureSensorManager temperatureSensorManager)
+        public TemperatureSensorComponent(ITemperatureSensorManager temperatureSensorManager)
         {
             _temperatureSensorManager = temperatureSensorManager;
         }

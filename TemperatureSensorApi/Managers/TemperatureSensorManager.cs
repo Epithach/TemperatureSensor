@@ -68,5 +68,4 @@ namespace TemperatureSensorApi.Managers
             throw new ArgumentException($"Cannot convert temperature value [{temperatureSensor.Temperature}] to double");
         }
     }
-
 }

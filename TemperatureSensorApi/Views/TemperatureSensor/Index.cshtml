@@ -1,5 +1,4 @@
-﻿@model TemperatureSensorApi.Models.TemperatureSensor
-
+﻿@model TemperatureSensorApi.ViewModels.TemperatureSensorViewModel;
 
 <!doctype html>
 <html lang="en">
@@ -14,6 +13,14 @@
 
     <p>Date of the day : @DateTime.Now.ToString("G")</p>
     @await Component.InvokeAsync("TemperatureSensor")
+    <p>Mood of the day : @Model.Mood</p>
+
+    <p>@Model.Message</p>
+
+    @if(Model.TemperatureStatusId == 1)
+    {
+        <img src="https://www.sopitas.com/wp-content/uploads/2023/06/cristiano-ronaldo-sigificado-festejo-siuu.jpg" class="img-fluid" alt="Responsive image">
+    }
 </body>
 </html>
 

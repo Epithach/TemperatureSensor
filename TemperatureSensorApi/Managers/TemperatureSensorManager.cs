@@ -31,10 +31,6 @@ namespace TemperatureSensorApi.Managers
         public async Task<TemperatureSensor> GetTemperatureSensor()
         {
             var temperatureSensor = await _temperatureSensorRepository.Get();
-            if (temperatureSensor == null)
-            {
-                throw new NullReferenceException(nameof(temperatureSensor));
-            }
             return temperatureSensor;
         }
 

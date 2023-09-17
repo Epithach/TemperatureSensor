@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using TemperatureSensorApi.Interfaces;
 
 namespace TemperatureSensorApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    public class TemperatureSensorController : ControllerBase
+    public class TemperatureSensorController : Controller
     {
-        public TemperatureSensorController()
-        {
+        public ITemperatureSensorManager _temperatureSensorManager { get; set; }
 
+        public TemperatureSensorController(ITemperatureSensorManager temperatureSensorManager)
+        {
+            _temperatureSensorManager = temperatureSensorManager;
         }
 
-        [HttpGet("status")]
-        public void GetStatus()
+        [HttpGet("Sensor")]
+        public void GetSensor()
         {
             try
             {
@@ -22,6 +26,13 @@ namespace TemperatureSensorApi.Controllers
             {
 
             }
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+
         }
     }
 }

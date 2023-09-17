@@ -5,7 +5,7 @@ using TemperatureSensorApi.Managers;
 using TemperatureSensorApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddRazorPages();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,12 +16,11 @@ builder.Services.AddTransient<ITemperatureStatusRepository, TemperatureStatusRep
 builder.Services.AddTransient<ITemperatureStatusManager, TemperatureStatusManager>();
 builder.Services.AddTransient<ITemperatureHistoryRepository, TemperatureHistoryRepository>();
 builder.Services.AddTransient<ITemperatureHistoryManager, TemperatureHistoryManager>();
-builder.Services.AddTransient<ITemperatureHistoryRepository, TemperatureHistoryRepository>();
+builder.Services.AddTransient<ITemperatureSensorRepository, TemperatureSensorRepository>();
 builder.Services.AddTransient<ITemperatureSensorManager, TemperatureSensorManager>();
 builder.Services.AddDbContext<DataContext>(options => 
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,5 +35,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.Run();

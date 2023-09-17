@@ -26,11 +26,15 @@ namespace TemperatureSensorTest
 
             var temperatureStatusManagerMoq = new Mock<ITemperatureStatusManager>();
             temperatureStatusManagerMoq.Setup(x => x.GetAll()).ReturnsAsync(temperatureStatuses);
+            temperatureStatusManagerMoq.Setup(x => x.GetColdTemperature()).ReturnsAsync(22);
+            temperatureStatusManagerMoq.Setup(x => x.GetHotTemperature()).ReturnsAsync(35);
+            temperatureStatusManagerMoq.Setup(x => x.GetWarmTemperatureLimit(true)).ReturnsAsync(22);
+            temperatureStatusManagerMoq.Setup(x => x.GetWarmTemperatureLimit(false)).ReturnsAsync(35);
             _temperatureStatusManager = temperatureStatusManagerMoq.Object;
         }
 
         [Test]
-        public void GetTemperatureSensor_Test()
+        public void GetTemperatureSensor_Test_Value()
         {
             //ARANGE 
             TemperatureSensorManager _manager = new TemperatureSensorManager(_temperatureSensorRepository, _temperatureStatusManager);
@@ -42,5 +46,21 @@ namespace TemperatureSensorTest
             Assert.IsNotNull(result);
             Assert.AreEqual("24", result.Result.Temperature);
         }
+
+        [Test]
+        public void GetMoodByTemperature_WARM_Test()
+        {
+            //ARANGE 
+            TemperatureSensorManager _manager = new TemperatureSensorManager(_temperatureSensorRepository, _temperatureStatusManager);
+
+            //ACT
+            var result = _manager.GetMoodByTemperature(23);
+
+            //ASSERT
+            Assert.IsNotNull(result);
+            Assert.AreEqual("WARM", result.Result);
+
+        }
+
     }
 }

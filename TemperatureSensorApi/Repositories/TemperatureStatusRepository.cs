@@ -37,7 +37,7 @@ namespace TemperatureSensorApi.Repositories
         {
             try
             {
-                var currentStatus = _dataContext.TemperatureStatusList.FirstOrDefault(x => x.Label.ToLower() == label);
+                var currentStatus = _dataContext.TemperatureStatusList.FirstOrDefault(x => x.Label.ToLower() == label.ToLower());
                 if (currentStatus != null)
                 {
                     currentStatus.StatusValue = statusValue;

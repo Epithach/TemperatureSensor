@@ -1,4 +1,5 @@
 ﻿using System.Reflection.Emit;
+using System.Threading.Channels;
 using TemperatureSensorApi.Interfaces;
 using TemperatureSensorApi.Models;
 using TemperatureSensorApi.Repositories;
@@ -87,6 +88,53 @@ namespace TemperatureSensorApi.Managers
                 throw new ArgumentException("Temperature high value is not valid");
             }
             return await Update("WARM", $"{lowtemperature};{hightemperature}");
+        }
+
+        public async Task<double> GetColdTemperature()
+        {
+            var temperature = await GetByLabel("COLD");
+            if (temperature == null)
+            {
+                throw new NullReferenceException(nameof(temperature));
+            }
+            if (double.TryParse(temperature.FirstOrDefault().StatusValue, out double t))
+            {
+                return t;
+            }
+            throw new ArgumentException("Cannot get cold temperature from value in db");
+        }
+
+        public async Task<double> GetHotTemperature()
+        {
+            var temperature = await GetByLabel("HOT");
+            if (temperature == null)
+            {
+                throw new NullReferenceException(nameof(temperature));
+            }
+            if (double.TryParse(temperature.FirstOrDefault().StatusValue, out double t))
+            {
+                return t;
+            }
+            throw new ArgumentException("Cannot get HOT temperature from value in db");
+        }
+
+        public async Task<double> GetWarmTemperatureLimit(bool getLowLimit = true)
+        {
+            var temperature = await GetByLabel("WARM");
+            if (temperature == null)
+            {
+                throw new NullReferenceException(nameof(temperature));
+            }
+            string[] values = temperature.FirstOrDefault().StatusValue.Split(';');
+            if (values.Length == 2)
+            {
+
+                if (double.TryParse(values[getLowLimit == true ? 0 : 1], out double t))
+                {
+                    return t;
+                }
+            }
+            throw new ArgumentException("Cannot get WARM temperature limits from value in db");
         }
 
         public async Task<List<TemperatureStatus>> GetAll()

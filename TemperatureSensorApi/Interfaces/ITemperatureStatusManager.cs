@@ -17,5 +17,11 @@ namespace TemperatureSensorApi.Interfaces
         Task<string> UpdateHotValue(string statusValue);
 
         Task<string> UpdateWarmValue(string lowValue, string highValue);
+
+        Task<double> GetWarmTemperatureLimit(bool getLowLimit = true);
+
+        Task<double> GetHotTemperature();
+
+        Task<double> GetColdTemperature();
     }
 }

@@ -31,5 +31,20 @@ namespace TemperatureSensorApi.Repositories
             }
         }
 
+        public async Task Add(TemperatureHistory historyData)
+        {
+            try
+            {
+                _dataContext.HistoryList.Add(historyData);
+                await _dataContext.SaveChangesAsync();
+                return;
+
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
     }
 }

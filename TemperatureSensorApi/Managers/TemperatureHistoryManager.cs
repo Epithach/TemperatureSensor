@@ -21,7 +21,7 @@ namespace TemperatureSensorApi.Managers
 
         public async Task<List<TemperatureHistory>> GetAll(int lastsNumber = 0)
         {
-            return await _temperatureHistoryRepository.GetAll();
+            return await _temperatureHistoryRepository.GetAll(lastsNumber);
         }
 
         public async Task AddCurrentTemperatureData()

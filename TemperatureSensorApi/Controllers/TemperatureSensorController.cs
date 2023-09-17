@@ -12,11 +12,14 @@ namespace TemperatureSensorApi.Controllers
     {
         public ITemperatureSensorManager _temperatureSensorManager { get; set; }
         public ITemperatureStatusManager _temperatureStatusManager { get; set; }
+        public ITemperatureHistoryManager _temperatureHistoryManager { get; set; }
 
-        public TemperatureSensorController(ITemperatureSensorManager temperatureSensorManager, ITemperatureStatusManager temperatureStatusManager)
+        public TemperatureSensorController(ITemperatureSensorManager temperatureSensorManager, ITemperatureStatusManager temperatureStatusManager,
+            ITemperatureHistoryManager temperatureHistoryManager)
         {
             _temperatureSensorManager = temperatureSensorManager;
             _temperatureStatusManager = temperatureStatusManager;
+            _temperatureHistoryManager = temperatureHistoryManager;
         }
 
         [HttpGet("mood")]
@@ -25,6 +28,7 @@ namespace TemperatureSensorApi.Controllers
             try
             {
                 var mood = await _temperatureSensorManager.GetTemperatureMood();
+                await _temperatureHistoryManager.AddCurrentTemperatureData();
                 return Ok(mood);
             }
             catch (ArgumentException argumentException)

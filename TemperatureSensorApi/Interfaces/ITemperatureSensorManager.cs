@@ -9,5 +9,7 @@ namespace TemperatureSensorApi.Interfaces
         Task<TemperatureSensor> GetTemperatureSensor();
 
         Task<double> GetTemperature();
+
+        Task<string> GetTemperatureMood();
     }
 }

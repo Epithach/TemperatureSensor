@@ -126,7 +126,7 @@ namespace TemperatureSensorApi.Managers
                 throw new NullReferenceException(nameof(temperature));
             }
             string[] values = temperature.FirstOrDefault().StatusValue.Split(';');
-            if (values.Length != 2)
+            if (values.Length == 2)
             {
 
                 if (double.TryParse(values[getLowLimit == true ? 0 : 1], out double t))

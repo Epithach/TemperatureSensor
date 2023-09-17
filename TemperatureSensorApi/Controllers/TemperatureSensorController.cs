@@ -15,16 +15,39 @@ namespace TemperatureSensorApi.Controllers
             _temperatureSensorManager = temperatureSensorManager;
         }
 
-        [HttpGet("Sensor")]
-        public void GetSensor()
+        [HttpGet("mood")]
+        public async Task<IActionResult> GetTemperatureMood()
         {
             try
             {
-
+                var mood = await _temperatureSensorManager.GetTemperatureMood();
+                return Ok(mood);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
             }
             catch (Exception exception)
             {
+                return StatusCode(500, exception.Message);
+            }
+        }
 
+        [HttpGet("temperature")]
+        public async Task<IActionResult> GetTemperature()
+        {
+            try
+            {
+                var mood = await _temperatureSensorManager.GetTemperature();
+                return Ok(mood);
+            }
+            catch (ArgumentException argumentException)
+            {
+                return BadRequest(argumentException.Message);
+            }
+            catch (Exception exception)
+            {
+                return StatusCode(500, exception.Message);
             }
         }
 
@@ -32,7 +55,6 @@ namespace TemperatureSensorApi.Controllers
         public IActionResult Index()
         {
             return View();
-
         }
     }
 }
